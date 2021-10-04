@@ -2,9 +2,13 @@ import UserBar from "./user/UserBar";
 import Todo from "./Todo";
 import CreateTodo from "./CreateTodo";
 import TodoList from "./TodoList";
+import React, { useState } from "react";
 
 
 function App() {
+
+  const [user, setUser] = useState('')
+
   const todos = [
     {
       title: "Todo1",
@@ -35,11 +39,13 @@ function App() {
 
     },
   ]
+  //if user is empty, && and whatever after that wont
+  //get executed
   return (
     <div>
-      <UserBar />
+      <UserBar user={user} setUser={setUser} />
       <br /><br /><hr /><br />
-      <CreateTodo todo="Submitting HomeWork" />
+      {user && <CreateTodo user={user} />}
       <TodoList todos={todos} />
     </div>
   )
