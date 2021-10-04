@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 export default function Login({ setUser }) {
     const [username, setUsername] = useState('')
-
+    //to handle username change
     function handleUsername(evt) { setUsername(evt.target.value) }
 
     return (
