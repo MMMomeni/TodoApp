@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-export default function CreateTodo({ user, todos, setTodos }) {
+export default function CreateTodo({ user, todos, dispatch }) {
 
     let newDate = new Date()
     let day = newDate.getDate();
@@ -14,14 +14,15 @@ export default function CreateTodo({ user, todos, setTodos }) {
 
     function handleTitle(evt) { setTitle(evt.target.value) }
     function handleContent(evt) { setContent(evt.target.value) }
-    function handleCreate() {
-        const newTodo = { title, content, currentDate, todoStatus }
-        setTodos([newTodo, ...todos])
-    }
+
+    //function handleCreate() {
+    //    const newTodo = { title, content, currentDate, todoStatus }
+    //    dispatch([newTodo, ...todos])
+    //}
 
 
     return (
-        <form onSubmit={evt => { evt.preventDefault(); handleCreate(); }}>
+        <form onSubmit={evt => { evt.preventDefault(); dispatch({ type: "CREATE_TODO", title, content, currentDate, todoStatus }); }}>
 
             <div>
                 <label htmlFor="create-title">Todo Title:</label>

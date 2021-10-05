@@ -11,35 +11,36 @@ function App() {
   const initialTodos = [
     {
       title: "Todo1",
-      description: "Laundry",
-      dateCreated: "9/28/2021",
-      complete: "false",
+      content: "Laundry",
+      currentDate: "9/28/2021",
+      todoStatus: "false",
 
     },
     {
       title: "Todo2",
-      description: "HomeWork2",
-      dateCreated: "9/28/2021",
-      complete: "false",
+      content: "Finish homeWork2",
+      currentDate: "9/28/2021",
+      todoStatus: "false",
 
     },
     {
       title: "Todo3",
-      description: "Change oil",
-      dateCreated: "9/28/2021",
-      complete: "false",
+      content: "Change oil",
+      currentDate: "9/28/2021",
+      todoStatus: "false",
 
     },
     {
       title: "Todo4",
-      description: "Shop Grocery",
-      dateCreated: "9/28/2021",
-      complete: "false",
+      content: "Shop groceries",
+      currentDate: "9/28/2021",
+      todoStatus: "false",
 
     },
   ]
 
-  const [todos, setTodos] = useState(initialTodos)
+  //const [todos, setTodos] = useState(initialTodos)
+
 
   function userReducer(state, action) {
     switch (action.type) {
@@ -53,8 +54,27 @@ function App() {
     }
   }
 
+
+  function todoReducer(state, action) {
+    switch (action.type) {
+      case 'CREATE_TODO':
+        const newTodo = {
+          title: action.title,
+          content: action.content,
+          currentDate: action.currentDate,
+          todoStatus: action.todoStatus,
+
+        }
+        return [newTodo, ...state]
+      default:
+        throw new Error()
+    }
+  }
+
+
   //const [user, setUser] = useState('')
   const [user, dispatchUser] = useReducer(userReducer, '')
+  const [todos, dispatchTodos] = useReducer(todoReducer, initialTodos)
 
 
   //if user is empty, && and whatever after that wont
@@ -63,7 +83,7 @@ function App() {
     <div>
       <UserBar user={user} dispatchUser={dispatchUser} />
       <br /><br /><hr /><br />
-      {user && <CreateTodo user={user} todos={todos} setTodos={setTodos} />}
+      {user && <CreateTodo user={user} todos={todos} dispatch={dispatchTodos} />}
       <TodoList todos={todos} />
     </div>
   )
