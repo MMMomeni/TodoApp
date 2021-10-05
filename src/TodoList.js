@@ -5,7 +5,7 @@ export default function TodoList({ todos = [] }) {
     return (
 
         <div>
-            {todos.map((t, i) => <Todo {...t} key={'todo-' + i} />)}
+            {todos.map((t, i) => <Todo {...t} title={t.title} content={t.content} currentDate={t.currentDate} key={'todo-' + i} />)}
         </div>
 
     )

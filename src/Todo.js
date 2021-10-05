@@ -1,13 +1,13 @@
 import React from 'react'
 
-export default function Todo({ title, description, dateCreated, complete }) {
+export default function Todo({ title, content, currentDate, todoStatus }) {
     return (
         <div>
             <h3>{title}</h3>
-            <div>{description}</div>
+            <div>{content}</div>
             <br />
-            <div>{dateCreated}</div>
-            <div>{complete}</div>
+            <div>{currentDate}</div>
+            <div>Finished: {todoStatus}</div>
 
         </div>
     )

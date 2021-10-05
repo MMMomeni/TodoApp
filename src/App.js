@@ -2,14 +2,13 @@ import UserBar from "./user/UserBar";
 import Todo from "./Todo";
 import CreateTodo from "./CreateTodo";
 import TodoList from "./TodoList";
-import React, { useState } from "react";
+import React, { useState, useReducer } from "react";
 
 
 function App() {
 
-  const [user, setUser] = useState('')
 
-  const todos = [
+  const initialTodos = [
     {
       title: "Todo1",
       description: "Laundry",
@@ -39,13 +38,32 @@ function App() {
 
     },
   ]
+
+  const [todos, setTodos] = useState(initialTodos)
+
+  function userReducer(state, action) {
+    switch (action.type) {
+      case 'LOGIN':
+      case 'REGISTER':
+        return action.username
+      case 'LOGOUT':
+        return ''
+      default:
+        throw new Error()
+    }
+  }
+
+  //const [user, setUser] = useState('')
+  const [user, dispatchUser] = useReducer(userReducer, '')
+
+
   //if user is empty, && and whatever after that wont
   //get executed
   return (
     <div>
-      <UserBar user={user} setUser={setUser} />
+      <UserBar user={user} dispatchUser={dispatchUser} />
       <br /><br /><hr /><br />
-      {user && <CreateTodo user={user} />}
+      {user && <CreateTodo user={user} todos={todos} setTodos={setTodos} />}
       <TodoList todos={todos} />
     </div>
   )
