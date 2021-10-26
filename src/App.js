@@ -2,89 +2,61 @@ import UserBar from "./user/UserBar";
 import Todo from "./Todo";
 import CreateTodo from "./CreateTodo";
 import TodoList from "./TodoList";
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useEffect } from "react";
+import Header from "./Header";
+import { ThemeContext, StateContext } from "./Contexts";
+import ChangeTheme from "./ChangeTheme";
+import appReducer from "./Reducers";
+import { useResource } from "react-request-hook";
 
 
 function App() {
 
+  const [todos, getTodos] = useResource(() => ({
+    url: '/todos',
+    method: 'get'
+  }))
 
-  const initialTodos = [
-    {
-      title: "Todo1",
-      content: "Laundry",
-      currentDate: "9/28/2021",
-      todoStatus: "false",
+  const [state, dispatch] = useReducer(appReducer, { user: '', todos: [] })
 
-    },
-    {
-      title: "Todo2",
-      content: "Finish homeWork2",
-      currentDate: "9/28/2021",
-      todoStatus: "false",
+  useEffect(getTodos, [])
 
-    },
-    {
-      title: "Todo3",
-      content: "Change oil",
-      currentDate: "9/28/2021",
-      todoStatus: "false",
-
-    },
-    {
-      title: "Todo4",
-      content: "Shop groceries",
-      currentDate: "9/28/2021",
-      todoStatus: "false",
-
-    },
-  ]
-
-  //const [todos, setTodos] = useState(initialTodos)
-
-
-  function userReducer(state, action) {
-    switch (action.type) {
-      case 'LOGIN':
-      case 'REGISTER':
-        return action.username
-      case 'LOGOUT':
-        return ''
-      default:
-        throw new Error()
+  useEffect(() => {
+    if (todos && todos.data) {
+      dispatch({ type: 'FETCH_TODOS', todos: todos.data })
     }
-  }
-
-
-  function todoReducer(state, action) {
-    switch (action.type) {
-      case 'CREATE_TODO':
-        const newTodo = {
-          title: action.title,
-          content: action.content,
-          currentDate: action.currentDate,
-          todoStatus: action.todoStatus,
-
-        }
-        return [newTodo, ...state]
-      default:
-        throw new Error()
-    }
-  }
+  }, [todos])
 
 
   //const [user, setUser] = useState('')
-  const [user, dispatchUser] = useReducer(userReducer, '')
-  const [todos, dispatchTodos] = useReducer(todoReducer, initialTodos)
+  //const [user, dispatchUser] = useReducer(userReducer, '')
+  //const [todos, dispatchTodos] = useReducer(todoReducer, initialTodos)
+
+
+
+  const { user } = state;  //destructure user and todos out of state
+
+  const [theme, setTheme] = useState({
+    primaryColor: 'deepskyblue',
+    secondaryColor: 'green',
+  })
+
 
 
   //if user is empty, && and whatever after that wont
   //get executed
   return (
     <div>
-      <UserBar user={user} dispatchUser={dispatchUser} />
-      <br /><br /><hr /><br />
-      {user && <CreateTodo user={user} todos={todos} dispatch={dispatchTodos} />}
-      <TodoList todos={todos} />
+      <ThemeContext.Provider value={theme} >
+        <StateContext.Provider value={{ state: state, dispatch: dispatch }}>
+          <Header text="Todo App" />
+          <ChangeTheme theme={theme} setTheme={setTheme} />
+          <UserBar />
+          <br /><br /><hr /><br />
+          {user && <CreateTodo />}
+          <TodoList />
+        </StateContext.Provider>
+      </ThemeContext.Provider>
     </div>
   )
 }

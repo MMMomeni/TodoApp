@@ -1,0 +1,52 @@
+{
+  "todos": [
+    {
+      "id": 3,
+      "title": "Laundry",
+      "content": "I should do the laundry before next friday",
+      "currentDate": "9/28/2021",
+      "todoStatus": false,
+      "completedDate": null
+    },
+    {
+      "title": "Submit HW4",
+      "content": "HomeWork 4 is due next Monday",
+      "currentDate": "9/28/2021",
+      "todoStatus": false,
+      "completedDate": null,
+      "id": 4
+    },
+    {
+      "title": "Test",
+      "content": "Test Post",
+      "currentDate": "9/28/2021",
+      "todoStatus": false,
+      "completedDate": null,
+      "id": 5
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "username": "Mohammad",
+      "password": "letMeIn"
+    }
+  ],
+  "themes": [
+    {
+      "id": 1,
+      "primaryColor": "deepskyblue",
+      "secondaryColor": "coral"
+    },
+    {
+      "id": 2,
+      "primaryColor": "orchid",
+      "secondaryColor": "mediumseagreen"
+    },
+    {
+      "id": 3,
+      "primaryColor": "darkslategray",
+      "secondaryColor": "slategray"
+    }
+  ]
+}

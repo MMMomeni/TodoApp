@@ -1,13 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import { StateContext } from './Contexts';
 
-export default function CreateTodo({ user, todos, dispatch }) {
+export default function CreateTodo() {
 
     let newDate = new Date()
     let day = newDate.getDate();
     let month = newDate.getMonth() + 1;
     let year = newDate.getFullYear();
-    let todoStatus = "false";
+    let todoStatus = false;
 
+    const { dispatch } = useContext(StateContext);
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
     const [currentDate, setDate] = useState(`${month < 10 ? `0${month}` : `${month}`}/${day}/${year}`)
