@@ -67,6 +67,12 @@
       "content": "erfgwerrsfg",
       "currentDate": "10/28/2021",
       "id": 12
+    },
+    {
+      "title": "erg",
+      "content": "erg",
+      "currentDate": "10/29/2021",
+      "id": 13
     }
   ],
   "users": [
@@ -74,6 +80,11 @@
       "id": 1,
       "username": "Mohammad",
       "password": "letMeIn"
+    },
+    {
+      "username": "newAccount",
+      "password": "test",
+      "id": 2
     }
   ],
   "themes": [
