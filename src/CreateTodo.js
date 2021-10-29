@@ -1,13 +1,17 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { StateContext } from './Contexts';
+import { useResource } from 'react-request-hook';
 
 export default function CreateTodo() {
+
+
+
 
     let newDate = new Date()
     let day = newDate.getDate();
     let month = newDate.getMonth() + 1;
     let year = newDate.getFullYear();
-    let todoStatus = false;
+    //let todoStatus = false;
 
     const { dispatch } = useContext(StateContext);
     const [title, setTitle] = useState('')
@@ -22,9 +26,28 @@ export default function CreateTodo() {
     //    dispatch([newTodo, ...todos])
     //}
 
+    const [todo, createTodo] = useResource(({ title, content, currentDate }) => ({
+        url: '/todos',
+        method: 'post',
+        data: { title, content, currentDate }
+    }))
+
+    function handleCreate() {
+        createTodo({ title, content, currentDate })
+
+    }
+    //makes sure the todo.data comes back from the server before dispatching
+    useEffect(() => {
+        if (todo && todo.data) {
+            dispatch({ type: 'CREATE_TODO', title: todo.data.title, content: todo.data.content, currentDate: todo.data.currentDate, id: todo.data.id })
+        }
+    }, [todo])
+
+
+
 
     return (
-        <form onSubmit={evt => { evt.preventDefault(); dispatch({ type: "CREATE_TODO", title, content, currentDate, todoStatus }); }}>
+        <form onSubmit={evt => { evt.preventDefault(); handleCreate(); }}>
 
             <div>
                 <label htmlFor="create-title">Todo Title:</label>

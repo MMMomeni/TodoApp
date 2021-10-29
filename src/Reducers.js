@@ -14,6 +14,7 @@ function todoReducer(state, action) {
     switch (action.type) {
         case 'CREATE_TODO':
             const newTodo = {
+                id: action.id,
                 title: action.title,
                 content: action.content,
                 currentDate: action.currentDate,
