@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useResource } from 'react-request-hook'
+import { NavDropdown } from 'react-bootstrap'
+
 
 /*
 const THEMES = [
@@ -44,13 +46,19 @@ export default function ChangeTheme({ theme, setTheme }) {
 
 
     function isActive(t) { return t.primaryColor === theme.primaryColor && t.secondaryColor === theme.secondaryColor }
-    return (<div>
-        Change theme:
-
+    return (<>
         {isLoading && ' Loading themes...'}
+        <NavDropdown title="ChangeTheme" id="basic-nav-dropdown">
 
-        {data && data.map((t, i) =>
-            <ThemeItem key={'theme-' + i} theme={t} active={isActive(t)} onClick={() => setTheme(t)} />
-        )} </div>
+
+            {data && data.map((t, i) =>
+                <NavDropdown.Item>
+
+                    <ThemeItem key={'theme-' + i} theme={t} active={isActive(t)} onClick={() => setTheme(t)} />
+                </NavDropdown.Item>
+            )}
+        </NavDropdown >
+    </>
+
     )
 }

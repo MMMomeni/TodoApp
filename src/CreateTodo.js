@@ -2,6 +2,8 @@ import React, { useState, useContext, useEffect } from 'react'
 import { StateContext } from './Contexts';
 import { useResource } from 'react-request-hook';
 
+import { useNavigation } from 'react-navi';
+
 export default function CreateTodo() {
 
 
@@ -32,6 +34,9 @@ export default function CreateTodo() {
         data: { title, content, currentDate }
     }))
 
+    const navigation = useNavigation()
+
+
     function handleCreate() {
         createTodo({ title, content, currentDate })
 
@@ -40,6 +45,7 @@ export default function CreateTodo() {
     useEffect(() => {
         if (todo && todo.data) {
             dispatch({ type: 'CREATE_TODO', title: todo.data.title, content: todo.data.content, currentDate: todo.data.currentDate, id: todo.data.id })
+            navigation.navigate(`/todo/${todo.data.id}`)
         }
     }, [todo])
 

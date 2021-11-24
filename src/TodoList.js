@@ -8,7 +8,7 @@ export default function TodoList() {
     return (
 
         <div>
-            {todos.map((t, i) => <Todo {...t} title={t.title} content={t.content} currentDate={t.currentDate} key={'todo-' + i} todoId={i} />)}
+            {todos.map((t, i) => <Todo {...t} short={true} title={t.title} content={t.content} currentDate={t.currentDate} key={'todo-' + i} todoId={t.id} />)}
         </div>
 
     )

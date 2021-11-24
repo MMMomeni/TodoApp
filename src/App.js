@@ -1,31 +1,36 @@
-import UserBar from "./user/UserBar";
-import Todo from "./Todo";
 import CreateTodo from "./CreateTodo";
-import TodoList from "./TodoList";
 import React, { useState, useReducer, useEffect } from "react";
-import Header from "./Header";
 import { ThemeContext, StateContext } from "./Contexts";
-import ChangeTheme from "./ChangeTheme";
 import appReducer from "./Reducers";
-import { useResource } from "react-request-hook";
+import HeaderBar from "./pages/HeaderBar";
+import HomePage from "./pages/HomePage"
+import TodoPage from "./pages/TodoPage"
+import { mount, route } from "navi";
+import { Router, View } from "react-navi"
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container, Row, Col } from 'react-bootstrap'
+
 
 
 function App() {
-
-  const [todos, getTodos] = useResource(() => ({
-    url: '/todos',
-    method: 'get'
-  }))
+  /*
+    const [todos, getTodos] = useResource(() => ({
+      url: '/todos',
+      method: 'get'
+    }))
+    */
 
   const [state, dispatch] = useReducer(appReducer, { user: '', todos: [] })
-
-  useEffect(getTodos, [])
-
-  useEffect(() => {
-    if (todos && todos.data) {
-      dispatch({ type: 'FETCH_TODOS', todos: todos.data })
-    }
-  }, [todos])
+  /*
+    useEffect(getTodos, [])
+  
+  
+    useEffect(() => {
+      if (todos && todos.data) {
+        dispatch({ type: 'FETCH_TODOS', todos: todos.data })
+      }
+    }, [todos])
+    */
 
 
   //const [user, setUser] = useState('')
@@ -41,6 +46,15 @@ function App() {
     secondaryColor: 'green',
   })
 
+  const routes = mount({
+    '/': route({ view: <HomePage /> }),
+    '/todo/create': route({ view: <CreateTodo /> }),
+    '/todo/:id': route(req => {
+      return { view: <TodoPage id={req.params.id} /> }
+    }),
+  })
+
+
 
 
   //if user is empty, && and whatever after that wont
@@ -49,12 +63,13 @@ function App() {
     <div>
       <ThemeContext.Provider value={theme} >
         <StateContext.Provider value={{ state: state, dispatch: dispatch }}>
-          <Header text="Todo App" />
-          <ChangeTheme theme={theme} setTheme={setTheme} />
-          <UserBar />
-          <br /><br /><hr /><br />
-          {user && <CreateTodo />}
-          <TodoList />
+          <Router routes={routes}>
+            <Container>
+              <HeaderBar setTheme={setTheme} />
+              <hr />
+              <View />
+            </Container>
+          </Router>
         </StateContext.Provider>
       </ThemeContext.Provider>
     </div>
